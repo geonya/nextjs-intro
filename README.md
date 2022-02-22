@@ -1,12 +1,15 @@
 # NextJs start
 
+-   router 를 따로 설정할 필요 없이 pages 폴더 내에서 파일명으로 자동으로 routing 됨
+
 -   client side render : normal React
     JS 가 다 열린 후에야 화면을 제대로 볼 수 있음
     JS 코드를 통해서 DOM 을 render 하기 때문
 
 -   server side render : NextJS
-    JS가 로드 되기 전에 미리 page 를 미리 #rendering 할 수 있음
+    스크립트가 로드 되기 전에 컴포넌츠 초기값을 미리 rendering 하여 보여줌
     (pre-rendering)
+    다 load 된 후에는 ReactJS 를 중심으로 작동함
 
 https://nomadcoders.co/nextjs-fundamentals/lectures/3440
 
@@ -87,3 +90,32 @@ className (class 라고 쓰면 안됨 react class 랑 혼동을 줄 수 있기 �
 이런식으로 jsx 내에서 style로 구현하는 것이 편할 수 있음
 각각의 파일마다 style은 독립적으로 동작함, 연결되지 않음
 (라우터마다 해당 클래스 이름이 랜덤하게 만들어지기 때문)
+
+전체 페이지에서 적용되는 global style 을 만들기 위해서는 ?
+
+<style jsx global>
+    {`
+        a {
+            color: white;
+        }
+    `}
+</style>
+
+global prop 을 이용하여
+이렇게 할 수 있지만 해당 페이지에서만 적용됨
+
+-   App component
+
+-   \_app.tsx 파일을 만들어 블루프린트로 활용 (Custom App component)
+
+import NavBar from "../components/NavBar";
+import "../styles/globals.css";
+
+export default function App({ Component, pageProps }: IApp) {
+return (
+<>
+<NavBar />
+<Component {...pageProps} />
+</>
+);
+}
